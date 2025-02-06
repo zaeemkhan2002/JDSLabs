@@ -1,0 +1,2 @@
+lab1:turtlesim_cleaner
+-DCATKIN_DEVEL_PREFIX=/home/sul_ahmad/zaeem_ws/devel -DCMAKE_INSTALL_PREFIX=/home/sul_ahmad/zaeem_ws/install -G Unix Makefiles

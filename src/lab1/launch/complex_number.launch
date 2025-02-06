@@ -1,0 +1,10 @@
+<launch>
+    <arg name="real" default="2.0"/>
+    <arg name="imaginary" default="3.0"/>
+
+    <node pkg="lab1" type="publisher.py" name="complex_publisher" output="screen">
+        <param name="real" value="$(arg real)"/>
+        <param name="imaginary" value="$(arg imaginary)"/>
+    </node>
+    <node pkg="lab1" type="subscriber.py" name="complex_subscriber" output="screen" />
+</launch>
