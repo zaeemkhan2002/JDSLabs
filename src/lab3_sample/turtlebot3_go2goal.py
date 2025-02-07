@@ -40,7 +40,7 @@ def move_to_goal(goal_x, goal_y):
         if distance < 0.1: 
             break
         
-        rate.sleep()
+        # rate.sleep()
 
     vel_msg.linear.x = 0
     vel_msg.angular.z = 0
@@ -52,7 +52,6 @@ if __name__ == '__main__':
         goal_x = float(input("Enter goal x-coordinate: "))
         goal_y = float(input("Enter goal y-coordinate: "))
         
-        rospy.sleep(1)
         move_to_goal(goal_x, goal_y)
     
     except rospy.ROSInterruptException:
