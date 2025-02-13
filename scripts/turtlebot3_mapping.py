@@ -138,22 +138,25 @@ def trace_object():
             front_distance = latest_scan.ranges[0]
             left_distance = latest_scan.ranges[269]
 
-            if front_distance < 0.5:
+            # Adjust angular velocity to maintain obstacle on the left at 90 degrees
+            target_distance = 0.6  # Slightly increase distance for safer tracking
+            distance_error = left_distance - target_distance
+
+            # Proportional controller to maintain a smooth circular path
+            angular_speed = max(min(-distance_error * 0.3, 0.15), -0.15)
+
+            # Maintain constant forward speed while adjusting angular velocity
+            twist.angular.z = angular_speed
+            twist.linear.x = 0.1
+
+            # Ensure the robot slows down significantly when an object appears close in front
+            if front_distance < 0.6:
+                rospy.loginfo("Obstacle detected in front, turning left to avoid collision.")
                 twist.angular.z = 0.5
                 twist.linear.x = 0.0
-            else:
-                if left_distance > 0.5:
-                    twist.angular.z = -0.2
-                    twist.linear.x = 0.1
-                elif left_distance < 0.5:
-                    twist.angular.z = 0.2
-                    twist.linear.x = 0.1
-                else:
-                    twist.angular.z = 0.0
-                    twist.linear.x = 0.2
 
             twist_pub.publish(twist)
-        rate.sleep()
+        
 
     rospy.loginfo("Mapping complete, total points collected: %d", len(map_x))
     rospy.loginfo(f"Map X coordinates: {map_x}")
